@@ -1,0 +1,398 @@
+import React from "react";
+import { PiSigmaBold } from "react-icons/pi";
+import { FaSquareRootAlt } from "react-icons/fa";
+import { TbMathFunction } from "react-icons/tb";
+import numbers from '../imgs/numbers.jpg';
+import Math1Png from '../pngs/math1.png';
+import Math1Svg from '../svgs/math1.svg';
+import STILogo1 from "../STI LOGOS/STI LOGO1.png";
+
+/* Title Slide – Matrix digital grid background */
+export function TitleSlide({ title, subtitle }) {
+  return (
+    <section className="relative w-[1920px] h-[1080px] bg-black overflow-hidden flex flex-col items-center justify-center text-green-400">
+      <img
+        src={STILogo1}
+        alt="STI LOGO1"
+        className="absolute top-8 right-8 w-40 h-auto pointer-events-none select-none"
+      />
+      {/* Grid background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f0_1px,transparent_1px),linear-gradient(to_bottom,#0f0_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
+
+      {/* Floating math icons */}
+      <PiSigmaBold className="absolute top-10 left-10 text-6xl opacity-30" />
+      <FaSquareRootAlt className="absolute bottom-12 right-20 text-5xl opacity-30" />
+      <TbMathFunction className="absolute top-1/2 left-1/4 text-7xl opacity-20" />
+
+      {/* Text */}
+      <h1 className="relative z-10 text-7xl font-mono font-bold mb-6">{title}</h1>
+      <h2 className="relative z-10 text-2xl font-mono opacity-80">{subtitle}</h2>
+    </section>
+  );
+}
+
+export function TOCSlide({ tocData }) {
+  // Handle both old format (items array) and new format (tocData object)
+  const title = tocData?.title || "Table of Contents";
+  const sections = tocData?.sections || [];
+  
+  const accent = "cyan"; // Default accent color
+
+  const accentMap = {
+    cyan: "from-cyan-400 to-blue-500",
+    lime: "from-lime-400 to-green-600",
+    amber: "from-amber-400 to-yellow-600",
+  };
+
+  const grad = accentMap[accent] || accentMap.cyan;
+
+  return (
+    <section className="relative w-[1920px] h-[1080px] bg-[#050607] text-white flex flex-col items-center justify-center overflow-hidden">
+      {/* Subtle grid / matrix background */}
+      <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:48px_48px]"></div>
+
+      {/* Faint glowing diagonal band */}
+      <div className="absolute -left-80 -top-40 w-[900px] h-[900px] rounded-full bg-gradient-to-br opacity-40 blur-[160px] from-indigo-800 via-transparent to-transparent"></div>
+
+      {/* Title */}
+      <h2 className="text-5xl font-mono font-bold mb-16 tracking-tight">
+        <span className={`bg-clip-text text-transparent bg-gradient-to-r ${grad}`}>
+          {title}
+        </span>
+      </h2>
+
+      {/* Two-Column Layout for TOC - Minimized to show only main sections */}
+      <div className="grid grid-cols-2 gap-20 z-10 max-w-6xl w-full px-20">
+        {/* Left Column */}
+        <div className="space-y-10">
+          {sections.slice(0, Math.ceil(sections.length / 2)).map((section, sectionIndex) => (
+            <div key={sectionIndex} className="flex items-center gap-8 text-gray-200 hover:text-cyan-300 transition-colors duration-300 group">
+              <div className="w-20 h-20 flex items-center justify-center rounded-sm bg-[#0b0b0d] border-3 border-white/20 group-hover:border-cyan-400/40 shadow-inner flex-shrink-0 transition-all duration-300">
+                <div className={`text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r ${grad} group-hover:scale-110 transition-transform duration-300`}>
+                  {String(sectionIndex + 1).padStart(2, "0")}
+                </div>
+              </div>
+              <span className="text-5xl font-mono font-bold text-left leading-tight flex-1 group-hover:translate-x-2 transition-transform duration-300">{section.title}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Right Column */}
+        <div className="space-y-10">
+          {sections.slice(Math.ceil(sections.length / 2)).map((section, sectionIndex) => {
+            const actualIndex = Math.ceil(sections.length / 2) + sectionIndex;
+            return (
+              <div key={actualIndex} className="flex items-center gap-8 text-gray-200 hover:text-cyan-300 transition-colors duration-300 group">
+                <div className="w-20 h-20 flex items-center justify-center rounded-sm bg-[#0b0b0d] border-3 border-white/20 group-hover:border-cyan-400/40 shadow-inner flex-shrink-0 transition-all duration-300">
+                  <div className={`text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r ${grad} group-hover:scale-110 transition-transform duration-300`}>
+                    {String(actualIndex + 1).padStart(2, "0")}
+                  </div>
+                </div>
+                <span className="text-5xl font-mono font-bold text-left leading-tight flex-1 group-hover:translate-x-2 transition-transform duration-300">{section.title}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function MainSlide({ title, content, autoGeneratedImage }) {
+  return (
+    <section className="relative w-[1920px] h-[1080px] bg-[#050607] text-white flex items-center justify-center overflow-hidden">
+      {/* Subtle grid / matrix background */}
+      <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:48px_48px]"></div>
+
+      {/* Faint glowing diagonal band */}
+      <div className="absolute -left-80 -top-40 w-[900px] h-[900px] rounded-full bg-gradient-to-br opacity-40 blur-[160px] from-indigo-800 via-transparent to-transparent"></div>
+
+      {/* Two-column layout mirroring ClassicClassroom behavior */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center px-8">
+        {/* Left: auto image or placeholder */}
+        <div className="w-1/2 h-4/5 flex items-center justify-center px-8">
+          {autoGeneratedImage ? (
+            <img
+              src={autoGeneratedImage}
+              alt={title}
+              className="w-full h-full object-cover rounded-lg border-4 border-green-500/60 shadow-2xl"
+            />
+          ) : (
+            <div className="w-full h-full bg-[#0b0b0d]/60 border-4 border-green-700/60 rounded-lg flex flex-col items-center justify-center">
+              <div className="text-green-400 text-3xl font-mono font-bold mb-4">Auto Image Placeholder</div>
+              <span className="text-green-300 text-xl text-center px-4 font-mono">1st Term MainSlide</span>
+            </div>
+          )}
+        </div>
+
+        {/* Right: title and definition */}
+        <div className="w-1/2 bg-[#0b0b0d]/80 border border-white/10 rounded-lg p-10 text-center shadow-2xl mx-8">
+          <h2 className="text-6xl md:text-7xl lg:text-8xl font-mono font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-green-400">{title}</h2>
+          <p className="text-3xl md:text-4xl lg:text-5xl leading-relaxed font-mono text-gray-200">{content}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Keep old component for backward compatibility
+export function TOCSlideMathMatrix(props) {
+  const {
+    title = "Table of Contents",
+    items = [],
+    accent = "cyan"
+  } = props;
+  
+  const tocData = {
+    title,
+    sections: items.map(item => ({ title: item, subsections: [] }))
+  };
+  return <TOCSlide tocData={tocData} />;
+}
+
+
+/* Main Slide 1 – Split screen with math sidebar + auto image */
+export function MainSlide1({ title, content, autoGeneratedImage }) {
+  return (
+    <section className="w-[1920px] h-[1080px] flex bg-black text-green-300">
+      {/* Sidebar with math symbols */}
+      <div className="w-1/5 bg-gradient-to-b from-green-900/70 to-black flex flex-col items-center justify-center gap-6 text-3xl">
+        <PiSigmaBold className="opacity-50" />
+        <FaSquareRootAlt className="opacity-50" />
+        <TbMathFunction className="opacity-50" />
+      </div>
+
+      {/* Right content area with two-column layout similar to MainSlide */}
+      <div className="flex-1 h-full flex items-center justify-center px-8">
+        {/* Left: auto image or placeholder for 2nd term */}
+        <div className="w-1/2 h-4/5 flex items-center justify-center px-6">
+          {autoGeneratedImage ? (
+            <img
+              src={autoGeneratedImage}
+              alt={title}
+              className="w-full h-full object-cover rounded-lg border-4 border-green-500/60 shadow-2xl"
+            />
+          ) : (
+            <div className="w-full h-full bg-[#0b0b0d]/60 border-4 border-green-700/60 rounded-lg flex flex-col items-center justify-center">
+              <div className="text-green-400 text-3xl font-mono font-bold mb-4">Auto Image Placeholder</div>
+              <span className="text-green-300 text-xl text-center px-4 font-mono">2nd Term MainSlide</span>
+            </div>
+          )}
+        </div>
+
+        {/* Right: title and definition */}
+        <div className="w-1/2 bg-[#0b0b0d]/80 border border-white/10 rounded-lg p-10 text-center shadow-2xl mx-6">
+          <h2 className="text-6xl font-mono font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-green-400">{title}</h2>
+          <p className="text-4xl leading-relaxed font-mono text-gray-200">{content}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* Main Slide 2 – Grid board with equations */
+export function MainSlide2({ title, content, title2, content2 }) {
+  return (
+    <section className="relative w-[1920px] h-[1080px] bg-gradient-to-br from-black to-green-950 text-green-300 flex flex-col items-center justify-center p-8">
+      {/* Grid background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f0_1px,transparent_1px),linear-gradient(to_bottom,#0f0_1px,transparent_1px)] bg-[size:40px_40px] opacity-10"></div>
+
+      {/* Floating math notes */}
+      <p className="absolute top-8 right-12 text-green-500 opacity-40 text-lg font-mono">∫ f(x) dx</p>
+      <p className="absolute bottom-8 left-8 text-green-500 opacity-40 text-lg font-mono">E = mc²</p>
+
+      {/* Top Half: First Term */}
+      <div className="absolute top-[100px] left-0 right-0 h-[420px] px-20 z-10">
+        <div className="h-full bg-[#0b0b0d]/80 border-4 border-green-700/60 rounded-lg shadow-2xl p-8 flex flex-col justify-center">
+          <h2 className="text-6xl font-mono font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-green-400">{title || 'Term 1'}</h2>
+          <div className="h-[3px] w-32 bg-gradient-to-r from-green-400 to-cyan-400 mb-4"></div>
+          <p className="text-[2.5rem] font-mono leading-relaxed text-gray-200">{content || 'Definition for term 1'}</p>
+        </div>
+      </div>
+
+      {/* Bottom Half: Second Term */}
+      <div className="absolute bottom-[100px] left-0 right-0 h-[420px] px-20 z-10">
+        <div className="h-full bg-[#0b0b0d]/80 border-4 border-green-700/60 rounded-lg shadow-2xl p-8 flex flex-col justify-center">
+          <h2 className="text-6xl font-mono font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-cyan-400">{title2 || 'Term 2'}</h2>
+          <div className="h-[3px] w-32 bg-gradient-to-r from-cyan-400 to-green-400 mb-4"></div>
+          <p className="text-[2.5rem] font-mono leading-relaxed text-gray-200">{content2 || 'Definition for term 2'}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* Main Slide 3 – Diagonal matrix panel */
+export function MainSlide3({ title, content }) {
+  return (
+    <section className="relative w-[1920px] h-[1080px] overflow-hidden bg-black text-green-300 flex items-center">
+      {/* Diagonal panel */}
+      <div className="absolute inset-0 bg-gradient-to-r from-green-900/80 to-black transform -skew-x-6"></div>
+
+      {/* Math symbols background */}
+      <PiSigmaBold className="absolute top-12 left-1/2 text-6xl opacity-20" />
+      <FaSquareRootAlt className="absolute bottom-12 right-1/3 text-5xl opacity-20" />
+
+      {/* Text */}
+      <div className="relative z-10 px-12 max-w-4xl ml-32">
+        <h2 className="text-7xl font-mono font-bold mb-4">{title}</h2>
+        <p className="text-[2.5rem] font-mono leading-relaxed">{content}</p>
+      </div>
+
+      <div className="absolute bottom-30 right-0 w-[700px] h-[600px] mr-20">
+        <img src={Math1Svg} alt="math" crossOrigin="anonymous" onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src=Math1Png; }} />
+      </div>
+    </section>
+  );
+}
+
+/* Main Slide 4 – Equation Split Showcase */
+export function MainSlide4({ title, content, title2, content2 }) {
+  return (
+    <section className="relative w-[1920px] h-[1080px] bg-black text-green-300 flex items-center justify-center overflow-hidden">
+      {/* Grid background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f0_1px,transparent_1px),linear-gradient(to_bottom,#0f0_1px,transparent_1px)] bg-[size:48px_48px] opacity-5"></div>
+
+      {/* Floating math symbols */}
+      <p className="text-6xl font-mono opacity-20 absolute top-24 left-12">∫</p>
+      <p className="text-6xl font-mono opacity-20 absolute bottom-24 right-16">∞</p>
+
+      {/* Left: First Term */}
+      <div className="absolute left-[100px] top-1/2 -translate-y-1/2 w-[800px] z-10">
+        <div className="bg-[#0b0b0d]/80 border-4 border-green-700/60 rounded-lg shadow-2xl p-10">
+          <h2 className="text-6xl font-mono font-bold mb-6 text-green-400 drop-shadow-[0_0_20px_rgba(0,255,0,0.4)]">{title || 'Term 1'}</h2>
+          <div className="h-[3px] w-32 bg-gradient-to-r from-green-400 to-cyan-400 mb-6"></div>
+          <p className="text-[2.5rem] font-mono leading-relaxed text-green-200/90">{content || 'Definition for term 1'}</p>
+        </div>
+      </div>
+
+      {/* Right: Second Term */}
+      <div className="absolute right-[100px] top-1/2 -translate-y-1/2 w-[800px] z-10">
+        <div className="bg-[#0b0b0d]/80 border-4 border-cyan-700/60 rounded-lg shadow-2xl p-10">
+          <h2 className="text-6xl font-mono font-bold mb-6 text-cyan-400 drop-shadow-[0_0_20px_rgba(0,255,255,0.4)]">{title2 || 'Term 2'}</h2>
+          <div className="h-[3px] w-32 bg-gradient-to-r from-cyan-400 to-green-400 mb-6"></div>
+          <p className="text-[2.5rem] font-mono leading-relaxed text-cyan-200/90">{content2 || 'Definition for term 2'}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+export function MainSlide5({ title, content }) {
+  return (
+    <section className="relative w-[1920px] h-[1080px] bg-gradient-to-b from-black to-green-950 text-green-300 flex items-center justify-center">
+      {/* Circular formula orbit */}
+      <div className="absolute w-[700px] h-[700px] rounded-full border-4 border-green-800 animate-spin-slow"></div>
+
+      {/* Orbiting equations */}
+      <p className="absolute top-20 left-1/2 -translate-x-1/2 text-green-500 font-mono text-xl opacity-70">
+        E = mc²
+      </p>
+      <p className="absolute bottom-24 left-1/3 text-green-500 font-mono text-xl opacity-70">
+        a² + b² = c²
+      </p>
+      <p className="absolute top-1/2 right-32 text-green-500 font-mono text-xl opacity-70">
+        ∑ xᵢ
+      </p>
+
+      {/* Core content */}
+      <div className="relative z-10 text-center max-w-4xl">
+        <h2 className="text-7xl font-mono font-bold mb-6">{title}</h2>
+        <p className="text-[2.5rem] font-mono leading-relaxed">{content}</p>
+      </div>
+    </section>
+  );
+}
+
+export function MainSlide6({ title, content }) {
+  return (
+    <section className="relative w-[1920px] h-[1080px] bg-black text-green-300 flex flex-col items-center justify-center px-24 py-16">
+      {/* Grid background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f0_1px,transparent_1px),linear-gradient(to_bottom,#0f0_1px,transparent_1px)] bg-[size:60px_60px] opacity-10"></div>
+
+      {/* Timeline layout */}
+      <div className="relative z-10 flex flex-col gap-12 max-w-5xl">
+        <h2 className="text-7xl font-mono font-bold mb-8 text-center">{title}</h2>
+
+        <div className="flex gap-8 items-start">
+          <div className="w-8 h-8 bg-green-500 rounded-full mt-2"></div>
+          <p className="text-4xl font-mono leading-relaxed flex-1">{content}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+/* Image Slide – Framed like a chalkboard */
+export function ImageSlide({ title, content, autoGeneratedImage, imageUrl }) {
+  const imageSrc = autoGeneratedImage || imageUrl;
+  return (
+    <section className="relative w-[1920px] h-[1080px] bg-black text-green-300 flex items-center justify-center overflow-hidden">
+      {/* Matrix frame */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f0_1px,transparent_1px),linear-gradient(to_bottom,#0f0_1px,transparent_1px)] bg-[size:48px_48px] opacity-5"></div>
+      <div className="absolute inset-4 border-[14px] border-green-800/60 rounded-xl shadow-2xl" />
+
+      <div className="relative z-10 w-5/6 h-5/6 flex items-center justify-between">
+        {/* Left: auto image or placeholder */}
+        <div className="w-1/2 h-full flex items-center justify-center pr-8">
+          {imageSrc ? (
+            <img
+              src={imageSrc}
+              alt={title}
+              className="max-w-full max-h-full object-contain rounded-lg border-4 border-green-500/60 shadow-2xl"
+            />
+          ) : (
+            <div className="w-4/5 h-4/5 bg-[#0b0b0d]/60 border-4 border-green-700/60 rounded-lg flex flex-col items-center justify-center">
+              <div className="text-green-400 text-3xl font-mono font-bold mb-4">Auto Image Placeholder</div>
+              <span className="text-green-300 text-xl text-center px-4 font-mono">1st Term ImageSlide</span>
+            </div>
+          )}
+        </div>
+
+        {/* Right: term and definition */}
+        <div className="w-1/2 text-white px-8">
+          {title && (
+            <h2 className="text-6xl md:text-7xl lg:text-8xl mb-8 font-mono bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-green-400">
+              {title}
+            </h2>
+          )}
+          {content && <p className="text-4xl leading-relaxed font-mono text-gray-200">{content}</p>}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* End Slide – Digital matrix style */
+export function EndSlide({ message }) {
+  return (
+    <section className="relative w-[1920px] h-[1080px] bg-black text-green-400 flex items-center justify-center">
+      {/* Falling matrix effect (simple grid illusion) */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,#0f0_2px,transparent_2px)] bg-[size:100px_40px] opacity-10"></div>
+
+      <div className="relative z-10 text-center">
+        <h2 className="text-6xl font-mono font-bold mb-4">{message}</h2>
+        <p className="text-2xl font-mono opacity-80">End of Presentation</p>
+      </div>
+    </section>
+  );
+}
+
+const MathMatrix = {
+  TitleSlide,
+  TOCSlide,
+  MainSlide,
+  MainSlide1,
+  MainSlide2,
+  MainSlide3,
+  MainSlide4,
+  MainSlide5,
+  MainSlide6,
+  ImageSlide,
+  EndSlide,
+};
+
+export default MathMatrix;

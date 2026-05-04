@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+firebase-debug.log*
+firebase-debug.*.log*
+
+# Tool caches
+.firebase/
+.vite/
+.eslintcache
+.npm/
+.cache/
+.parcel-cache/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Deployment platform state
+.vercel/
+.netlify/
+
+# Generated asset catalogs
+public/static/asset-manifest.json
+
+# Premium asset library kept local only
+public/static/icons/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Package archives
+*.tgz
