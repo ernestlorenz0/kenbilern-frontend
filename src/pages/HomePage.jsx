@@ -16,6 +16,9 @@ import { getPlaceholderSlides } from "../components/placeholderSlides";
 import Toast from '../components/Toast';
 import STILogo1 from '../STI LOGOS/STI LOGO1.png';
 
+const MAX_PDF_SIZE_MB = 50;
+const MAX_PDF_SIZE_BYTES = MAX_PDF_SIZE_MB * 1024 * 1024;
+
 // =========================
 // HomePage Component
 // =========================
@@ -59,8 +62,8 @@ export default function HomePage() {
       setError('Please upload PDF files only.');
       return;
     }
-    if (files.some(f => f.size > 5 * 1024 * 1024)) {
-      setError('Each file must be max 5MB.');
+    if (files.some(f => f.size > MAX_PDF_SIZE_BYTES)) {
+      setError(`Each file must be ${MAX_PDF_SIZE_MB}MB or smaller.`);
       return;
     }
     setUploadedFiles(prev => [...prev, ...files]);
@@ -303,6 +306,9 @@ export default function HomePage() {
       });
       
       if (!res.ok) {
+        if (res.status === 413) {
+          throw new Error(`Each PDF must be ${MAX_PDF_SIZE_MB}MB or smaller.`);
+        }
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       
@@ -1138,7 +1144,7 @@ export default function HomePage() {
                         </div>
                         <h3 className="text-2xl font-bold mb-3" style={{ color: '#003D7A' }}>Upload PDF Documents</h3>
                         <p className="text-lg mb-2" style={{ color: '#2C2C2C' }}>Drop your files here or click to browse</p>
-                        <p className="text-sm" style={{ color: '#666666' }}>(Max 5MB each, multiple files allowed)</p>
+                        <p className="text-sm" style={{ color: '#666666' }}>(Max {MAX_PDF_SIZE_MB}MB each, multiple files allowed)</p>
                       </div>
                     )}
                   </div>

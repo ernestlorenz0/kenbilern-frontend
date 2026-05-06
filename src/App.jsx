@@ -13,11 +13,17 @@ import SharedSlideshowPage from './pages/SharedSlideshowPage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './components/AdminRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   // Hydrate user from storage (prioritize sessionStorage)
-  const storedUser = sessionStorage.getItem('user') || localStorage.getItem('user');
-  const user = storedUser ? JSON.parse(storedUser) : null;
+  let user = null;
+  try {
+    const storedUser = sessionStorage.getItem('user') || localStorage.getItem('user');
+    user = storedUser ? JSON.parse(storedUser) : null;
+  } catch (_) {
+    user = null;
+  }
 
   return (
     <Routes>
@@ -25,11 +31,11 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/demo" element={<DemoPage />} />
-      <Route path="/home" element={<HomePage />} />
-      <Route path="/profile" element={<ProfilePage user={user} />} />
-      <Route path="/history" element={<HistoryPage uploadedFiles={[]} />} />
-      <Route path="/help" element={<HelpPage />} />
-      <Route path="/dashboard" element={<DashboardPage user={user} uploadedFiles={[]} />} />
+      <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute><ProfilePage user={user} /></ProtectedRoute>} />
+      <Route path="/history" element={<ProtectedRoute><HistoryPage uploadedFiles={[]} /></ProtectedRoute>} />
+      <Route path="/help" element={<ProtectedRoute><HelpPage /></ProtectedRoute>} />
+      <Route path="/dashboard" element={<ProtectedRoute><DashboardPage user={user} uploadedFiles={[]} /></ProtectedRoute>} />
       <Route path="/slideshow/:id" element={<SharedSlideshowPage />} />
       <Route path="/admin-login" element={<AdminLoginPage />} />
       <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
